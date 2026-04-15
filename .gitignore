@@ -1,0 +1,9 @@
+data/
+P7env
+mlruns
+models
+__pycache__/
+models/
+mlruns/
+P7env/
+*.pyc
