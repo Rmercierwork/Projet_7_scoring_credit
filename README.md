@@ -1,4 +1,4 @@
-﻿# Projet 7 - Scoring Crédit
+# Projet 7 - Scoring Crédit
 
 ## Contexte
 Projet réalisé dans le cadre de la formation Data Science OpenClassrooms.
@@ -9,6 +9,8 @@ Prédire la probabilité de défaut de paiement d'un client et classifier
 les demandes de crédit (accordé/refusé) via un seuil optimisé métier.
 
 ## Structure du projet
+
+```
 Projet_7/
 ├── data/               # Données brutes et préparées (non versionnées)
 ├── notebooks/
@@ -17,8 +19,10 @@ Projet_7/
 ├── models/             # Modèles sauvegardés (non versionnés)
 ├── mlruns/             # Tracking MLFlow (non versionné)
 └── README.md
+```
 
 ## Modèles entraînés
+
 | Modèle | AUC | Coût métier |
 |--------|-----|-------------|
 | DummyClassifier (baseline) | 0.50 | 1.00 |
@@ -32,6 +36,7 @@ Projet_7/
 - Git/GitHub pour le versioning
 
 ## Installation
+
 ```bash
 python -m venv P7env
 .\P7env\Scripts\activate
