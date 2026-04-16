@@ -1,10 +1,7 @@
 data/
-P7env
-mlruns
-models
-__pycache__/
-models/
+models/*.png
 mlruns/
 P7env/
+__pycache__/
 *.pyc
 .ipynb_checkpoints/
