@@ -7,15 +7,12 @@ import numpy as np
 import pandas as pd
 from flask import Flask, request, jsonify
 
-# Initialisation de l'application Flask
 app = Flask(__name__)
 
-# Chemin absolu vers les modèles (indépendant du répertoire de lancement)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_PATH = os.path.join(BASE_DIR, 'models', 'lgbm_final.pkl')
 SEUIL_PATH = os.path.join(BASE_DIR, 'models', 'seuil_optimal.pkl')
 
-# Chargement du modèle et du seuil au démarrage
 model = joblib.load(MODEL_PATH)
 seuil = joblib.load(SEUIL_PATH)
 
@@ -59,4 +56,4 @@ def health():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+    app.run(debug=False, host="0.0.0.0", port=7860)
