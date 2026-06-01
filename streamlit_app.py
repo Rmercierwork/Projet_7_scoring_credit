@@ -6,17 +6,14 @@ import requests
 import pandas as pd
 import json
 
-# Configuration de la page
 st.set_page_config(
     page_title="Scoring Crédit - Prêt à dépenser",
     page_icon="💳",
     layout="centered"
 )
 
-# URL de l'API
-API_URL = "https://projet-7-scoring-credit-apst.onrender.com"
+API_URL = "https://rmercierwork-scoring-credit-p7.hf.space"
 
-# Titre
 st.title("💳 Scoring Crédit")
 st.subheader("Prêt à dépenser — Outil de décision crédit")
 st.markdown("---")
@@ -58,9 +55,9 @@ if st.button("Calculer le score", type="primary"):
             seuil = result['seuil']
 
             if decision == 'ACCORDÉ':
-                st.success(f"✅ Crédit **{decision}**")
+                st.success(f"Crédit **{decision}**")
             else:
-                st.error(f"❌ Crédit **{decision}**")
+                st.error(f"Crédit **{decision}**")
 
             # Métriques
             col1, col2, col3 = st.columns(3)
