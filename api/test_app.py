@@ -6,7 +6,6 @@ import json
 import sys
 import os
 
-# On ajoute le dossier api au path pour pouvoir importer app
 sys.path.insert(0, os.path.dirname(__file__))
 from app import app
 

@@ -1,34 +1,60 @@
-name: Deploy to Render
+name: CI/CD - Test et deploiement sur Hugging Face Spaces
 
 on:
   push:
-    branches:
-      - master
+    branches: [master]
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
       - name: Install dependencies
-        run: pip install -r api/requirements.txt pytest
+        run: |
+          pip install -r api/requirements.txt
+          pip install pytest
 
-      - name: Run tests
+      # app.py charge models/ a cote de lui -> on rend le modele disponible
+      # dans api/ pour que l'import (et donc les tests) fonctionne en CI
+      - name: Rendre le modele disponible pour les tests
+        run: |
+          rm -rf api/models
+          cp -r models api/models
+
+      - name: Run unit tests
         run: pytest api/test_app.py -v
 
   deploy:
     needs: test
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy to Render
+      - uses: actions/checkout@v4
+
+      - name: Deploiement sur le Space Hugging Face
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          curl -X POST "https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys" \
-          -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
-          -H "Content-Type: application/json" \
-          -d '{}'
+          git lfs install
+
+          # on clone le Space existant (preserve son README + header Docker)
+          git clone "https://RMercierwork:${HF_TOKEN}@huggingface.co/spaces/RMercierwork/scoring-credit-p7" space
+
+          # on y depose la version a jour des fichiers de l'API
+          cp api/app.py            space/app.py
+          cp api/requirements.txt  space/requirements.txt
+          cp Dockerfile            space/Dockerfile
+          rm -rf space/models
+          cp -r models             space/models
+
+          cd space
+          git config user.email "actions@github.com"
+          git config user.name  "GitHub Actions CI"
+          git add .
+          git commit -m "Deploy depuis GitHub Actions (${GITHUB_SHA::7})" || echo "Rien a deployer"
+          git push
