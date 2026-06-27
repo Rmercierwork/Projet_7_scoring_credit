@@ -79,7 +79,7 @@ Projet_7/
 ```bash
 python -m venv P7env
 .\P7env\Scripts\activate
-pip install -r requirements.txt
+pip install -r requirements_notebooks.txt
 ```
 
 ## Lancer l'API en local
